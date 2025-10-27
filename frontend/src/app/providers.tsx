@@ -5,6 +5,8 @@ import { Toaster } from "sonner";
 import gsap from "gsap";
 import { ScrollSmoother, ScrollTrigger } from "gsap/all";
 import { useGSAP } from "@gsap/react";
+import { Authenticator } from "@aws-amplify/ui-react";
+import Auth from "./(auth)/authProvider";
 
 const queryClient = new QueryClient();
 // Register GSAP plugins
@@ -23,12 +25,16 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
   });
   return (
     <QueryClientProvider client={queryClient}>
-      <div id="smooth-wrapper">
-        <div id="smooth-content">
-          {children}
-          <Toaster position="bottom-right" />
-        </div>
-      </div>
+      <Authenticator.Provider>
+        <Auth>
+          <div id="smooth-wrapper">
+            <div id="smooth-content">
+              {children}
+              <Toaster position="bottom-right" />
+            </div>
+          </div>
+        </Auth>
+      </Authenticator.Provider>
     </QueryClientProvider>
   );
 };
