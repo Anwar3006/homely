@@ -1,13 +1,13 @@
-
 import dotenv from "dotenv";
 dotenv.config({ path: "./backend/.env" });
 
 import { Client } from "pg";
+import { DATABASE_URL } from "../config/env.ts";
 
 async function setupDatabase() {
   console.log("Setting up database...");
   const client = new Client({
-    connectionString: process.env.DATABASE_URL!,
+    connectionString: DATABASE_URL!,
   });
 
   try {

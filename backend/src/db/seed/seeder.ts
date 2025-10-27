@@ -14,11 +14,12 @@ import managersData from "./seedData/manager.json" with { type: "json" };
 import paymentsData from "./seedData/payment.json" with { type: "json" };
 import propertiesData from "./seedData/property.json" with { type: "json" };
 import tenantsData from "./seedData/tenant.json" with { type: "json" };
+import { DATABASE_URL } from "../../config/env.ts";
 
 async function seedDatabase() {
   console.log("Seeding database...");
   const client = new Client({
-    connectionString: process.env.DATABASE_URL!,
+    connectionString: DATABASE_URL!,
   });
   await client.connect();
   const db = drizzle(client, { schema });
@@ -40,6 +41,7 @@ async function seedDatabase() {
     // Insert data in order of dependencies
     console.log("Inserting locations...");
     const locationValues = locationsData.map((l) => {
+        // @ts-ignore
       const [longitude, latitude] = l.coordinates
         .match(/POINT\((.*)\)/)[1]
         .split(" ");
@@ -66,6 +68,7 @@ async function seedDatabase() {
       postedDate: new Date(p.postedDate),
       averageRating: Math.round(p.averageRating),
     }));
+    // @ts-ignore
     await db.insert(schema.property).values(propertiesToInsert);
 
     console.log("Inserting leases...");
@@ -81,6 +84,7 @@ async function seedDatabase() {
       ...a,
       applicationDate: new Date(a.applicationDate),
     }));
+    // @ts-ignore
     await db.insert(schema.application).values(applicationsToInsert);
 
     console.log("Inserting payments...");
@@ -91,7 +95,9 @@ async function seedDatabase() {
       paymentDate: new Date(p.paymentDate),
     }));
     // remove the lease property from the object
+    // @ts-ignore
     paymentsToInsert.forEach((p) => delete p.lease);
+    // @ts-ignore
     await db.insert(schema.payment).values(paymentsToInsert);
 
     console.log("Inserting liked properties...");

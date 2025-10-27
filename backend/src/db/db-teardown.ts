@@ -1,13 +1,13 @@
-
 import dotenv from "dotenv";
 dotenv.config({ path: "./backend/.env" });
 
 import { Client } from "pg";
+import { DATABASE_URL } from "../config/env.ts";
 
 async function teardownDatabase() {
   console.log("Tearing down database...");
   const client = new Client({
-    connectionString: process.env.DATABASE_URL!,
+    connectionString: DATABASE_URL!,
   });
 
   try {
@@ -17,12 +17,12 @@ async function teardownDatabase() {
     const tablesResult = await client.query(`
       SELECT tablename FROM pg_tables WHERE schemaname = 'public';
     `);
-    const tables = tablesResult.rows.map(row => row.tablename);
+    const tables = tablesResult.rows.map((row) => row.tablename);
     for (const table of tables) {
-        if (table !== 'spatial_ref_sys') {
-            await client.query(`DROP TABLE IF EXISTS "${table}" CASCADE;`);
-            console.log(`Dropped table ${table}.`);
-        }
+      if (table !== "spatial_ref_sys") {
+        await client.query(`DROP TABLE IF EXISTS "${table}" CASCADE;`);
+        console.log(`Dropped table ${table}.`);
+      }
     }
 
     // Drop all enums
@@ -33,7 +33,7 @@ async function teardownDatabase() {
       WHERE n.nspname = 'public'
       GROUP BY t.typname;
     `);
-    const enums = enumsResult.rows.map(row => row.typname);
+    const enums = enumsResult.rows.map((row) => row.typname);
     for (const anEnum of enums) {
       await client.query(`DROP TYPE IF EXISTS "${anEnum}";`);
       console.log(`Dropped enum ${anEnum}.`);
