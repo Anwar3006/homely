@@ -1,5 +1,5 @@
 // Auto-generated from backend Drizzle schema
-// Generated: 2025-10-27T18:11:29.464Z
+// Generated: 2025-10-27T19:39:33.227Z
 // Do not edit manually - changes will be overwritten
 
 import { z } from 'zod';

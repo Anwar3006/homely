@@ -1,5 +1,5 @@
 {
-  "id": "b594f52d-40d7-4888-a2b6-ad5f374a9983",
+  "id": "0ab6bc03-d2ed-4617-938b-d5b7f45a9027",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -219,6 +219,58 @@
           ],
           "columnsTo": [
             "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.leased_property": {
+      "name": "leased_property",
+      "schema": "",
+      "columns": {
+        "property_id": {
+          "name": "property_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "tenant_cognito_id": {
+          "name": "tenant_cognito_id",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "leased_property_property_id_property_id_fk": {
+          "name": "leased_property_property_id_property_id_fk",
+          "tableFrom": "leased_property",
+          "tableTo": "property",
+          "columnsFrom": [
+            "property_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "leased_property_tenant_cognito_id_tenant_cognitoId_fk": {
+          "name": "leased_property_tenant_cognito_id_tenant_cognitoId_fk",
+          "tableFrom": "leased_property",
+          "tableTo": "tenant",
+          "columnsFrom": [
+            "tenant_cognito_id"
+          ],
+          "columnsTo": [
+            "cognitoId"
           ],
           "onDelete": "no action",
           "onUpdate": "no action"
@@ -710,6 +762,13 @@
         },
         "createdAt": {
           "name": "createdAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        },
+        "updatedAt": {
+          "name": "updatedAt",
           "type": "timestamp",
           "primaryKey": false,
           "notNull": false,
