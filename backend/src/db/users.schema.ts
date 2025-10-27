@@ -17,7 +17,7 @@ export const tenant = pgTable("tenant", {
   phoneNumber: varchar("phoneNumber").notNull(),
 
   createdAt: timestamp("createdAt").defaultNow(),
-  updatedAt: timestamp("createdAt").defaultNow(),
+  updatedAt: timestamp("updatedAt").defaultNow(),
 });
 export const tenantRelation = relations(tenant, ({ one, many }) => ({
   leasedProperties: many(leasedProperty),
@@ -38,7 +38,7 @@ export const manager = pgTable("manager", {
   phoneNumber: varchar("phoneNumber").notNull(),
 
   createdAt: timestamp("createdAt").defaultNow(),
-  updatedAt: timestamp("createdAt").defaultNow(),
+  updatedAt: timestamp("updatedAt").defaultNow(),
 });
 export const managerRelation = relations(manager, ({ many }) => ({
   property: many(property),

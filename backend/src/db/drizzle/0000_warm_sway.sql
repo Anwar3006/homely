@@ -30,6 +30,11 @@ CREATE TABLE "lease" (
 	"updated_at" timestamp DEFAULT now()
 );
 --> statement-breakpoint
+CREATE TABLE "leased_property" (
+	"property_id" integer NOT NULL,
+	"tenant_cognito_id" varchar NOT NULL
+);
+--> statement-breakpoint
 CREATE TABLE "liked_property" (
 	"property_id" integer NOT NULL,
 	"tenant_cognito_id" varchar NOT NULL
@@ -52,6 +57,7 @@ CREATE TABLE "manager" (
 	"email" varchar NOT NULL,
 	"phoneNumber" varchar NOT NULL,
 	"createdAt" timestamp DEFAULT now(),
+	"updatedAt" timestamp DEFAULT now(),
 	CONSTRAINT "manager_cognitoId_unique" UNIQUE("cognitoId")
 );
 --> statement-breakpoint
@@ -99,6 +105,7 @@ CREATE TABLE "tenant" (
 	"email" varchar NOT NULL,
 	"phoneNumber" varchar NOT NULL,
 	"createdAt" timestamp DEFAULT now(),
+	"updatedAt" timestamp DEFAULT now(),
 	CONSTRAINT "tenant_cognitoId_unique" UNIQUE("cognitoId")
 );
 --> statement-breakpoint
@@ -107,6 +114,8 @@ ALTER TABLE "application" ADD CONSTRAINT "application_tenant_cognito_id_tenant_c
 ALTER TABLE "application" ADD CONSTRAINT "application_property_id_property_id_fk" FOREIGN KEY ("property_id") REFERENCES "public"."property"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "lease" ADD CONSTRAINT "lease_tenant_cognito_id_tenant_cognitoId_fk" FOREIGN KEY ("tenant_cognito_id") REFERENCES "public"."tenant"("cognitoId") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "lease" ADD CONSTRAINT "lease_property_id_property_id_fk" FOREIGN KEY ("property_id") REFERENCES "public"."property"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "leased_property" ADD CONSTRAINT "leased_property_property_id_property_id_fk" FOREIGN KEY ("property_id") REFERENCES "public"."property"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "leased_property" ADD CONSTRAINT "leased_property_tenant_cognito_id_tenant_cognitoId_fk" FOREIGN KEY ("tenant_cognito_id") REFERENCES "public"."tenant"("cognitoId") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "liked_property" ADD CONSTRAINT "liked_property_property_id_property_id_fk" FOREIGN KEY ("property_id") REFERENCES "public"."property"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "liked_property" ADD CONSTRAINT "liked_property_tenant_cognito_id_tenant_cognitoId_fk" FOREIGN KEY ("tenant_cognito_id") REFERENCES "public"."tenant"("cognitoId") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "payment" ADD CONSTRAINT "payment_lease_id_lease_id_fk" FOREIGN KEY ("lease_id") REFERENCES "public"."lease"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint

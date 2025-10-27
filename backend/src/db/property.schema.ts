@@ -59,7 +59,7 @@ export const property = pgTable("property", {
 export const propertyRelation = relations(property, ({ one, many }) => ({
   manager: one(manager, {
     fields: [property.managerCognitoId],
-    references: [manager.id],
+    references: [manager.cognitoId],
   }),
   location: one(location, {
     fields: [property.locationId],
