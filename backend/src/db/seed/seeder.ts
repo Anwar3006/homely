@@ -1,4 +1,3 @@
-
 import dotenv from "dotenv";
 dotenv.config({ path: "./backend/.env" });
 
@@ -40,11 +39,14 @@ async function seedDatabase() {
 
     // Insert data in order of dependencies
     console.log("Inserting locations...");
-    const locationValues = locationsData.map(l => {
-        const match = l.coordinates.match(/POINT\((.*)\)/);
-      if (!match) throw new Error(`Invalid coordinates format: ${l.coordinates}`);
-        const [longitude, latitude] = match.map(Number);
-        return { ...l, coordinates: sql`ST_SetSRID(ST_Point(${longitude}, ${latitude}), 4326)` };
+    const locationValues = locationsData.map((l) => {
+      const [longitude, latitude] = l.coordinates
+        .match(/POINT\((.*)\)/)[1]
+        .split(" ");
+      return {
+        ...l,
+        coordinates: sql`ST_SetSRID(ST_Point(${longitude}, ${latitude}), 4326)`,
+      };
     });
     await db.insert(schema.location).values(locationValues);
 
@@ -52,11 +54,13 @@ async function seedDatabase() {
     await db.insert(schema.manager).values(managersData);
 
     console.log("Inserting tenants...");
-    const tenantsToInsert = tenantsData.map(({ likedProperty, leasedProperties, ...tenant }) => tenant);
+    const tenantsToInsert = tenantsData.map(
+      ({ likedProperty, leasedProperties, ...tenant }) => tenant
+    );
     await db.insert(schema.tenant).values(tenantsToInsert);
 
     console.log("Inserting properties...");
-    const propertiesToInsert = propertiesData.map(p => ({
+    const propertiesToInsert = propertiesData.map((p) => ({
       ...p,
       imageUrls: JSON.stringify(p.imageUrls),
       postedDate: new Date(p.postedDate),
@@ -65,29 +69,29 @@ async function seedDatabase() {
     await db.insert(schema.property).values(propertiesToInsert);
 
     console.log("Inserting leases...");
-    const leasesToInsert = leasesData.map(l => ({
-        ...l,
-        startDate: new Date(l.startDate),
-        endDate: new Date(l.endDate),
+    const leasesToInsert = leasesData.map((l) => ({
+      ...l,
+      startDate: new Date(l.startDate),
+      endDate: new Date(l.endDate),
     }));
     await db.insert(schema.lease).values(leasesToInsert);
 
     console.log("Inserting applications...");
-    const applicationsToInsert = applicationsData.map(a => ({
-        ...a,
-        applicationDate: new Date(a.applicationDate),
+    const applicationsToInsert = applicationsData.map((a) => ({
+      ...a,
+      applicationDate: new Date(a.applicationDate),
     }));
     await db.insert(schema.application).values(applicationsToInsert);
 
     console.log("Inserting payments...");
-    const paymentsToInsert = paymentsData.map(p => ({
-        ...p,
-        leaseId: p.lease,
-        dueDate: new Date(p.dueDate),
-        paymentDate: new Date(p.paymentDate),
+    const paymentsToInsert = paymentsData.map((p) => ({
+      ...p,
+      leaseId: p.lease,
+      dueDate: new Date(p.dueDate),
+      paymentDate: new Date(p.paymentDate),
     }));
     // remove the lease property from the object
-    paymentsToInsert.forEach(p => delete p.lease);
+    paymentsToInsert.forEach((p) => delete p.lease);
     await db.insert(schema.payment).values(paymentsToInsert);
 
     console.log("Inserting liked properties...");
@@ -103,9 +107,8 @@ async function seedDatabase() {
       }
     }
     if (likedProperties.length > 0) {
-        await db.insert(schema.likedProperty).values(likedProperties);
+      await db.insert(schema.likedProperty).values(likedProperties);
     }
-
 
     console.log("Inserting leased properties...");
     const leasedProperties = [];
@@ -119,21 +122,17 @@ async function seedDatabase() {
         }
       }
     }
-    if(leasedProperties.length > 0) {
-        await db.insert(schema.leasedProperty).values(leasedProperties);
+    if (leasedProperties.length > 0) {
+      await db.insert(schema.leasedProperty).values(leasedProperties);
     }
 
     console.log("Database seeded successfully!");
   } catch (error) {
     console.error("Error seeding database:", error);
   } finally {
-     await client.end();
-     console.log("Database connection closed.");
+    await client.end();
+    console.log("Database connection closed.");
   }
 }
 
 seedDatabase();
-
-
-
-
