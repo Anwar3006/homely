@@ -13,8 +13,8 @@ const GsapScrollProvider = ({ children }: { children: React.ReactNode }) => {
     const smoother = ScrollSmoother.create({
       wrapper: "#smooth-wrapper",
       content: "#smooth-content",
-      smooth: 3,
-      effects: true,
+      smooth: 1,
+      effects: false,
       smoothTouch: 0.1,
     });
     return () => {

@@ -11,11 +11,39 @@ import CountUp from "react-countup";
 type Testimonial = { text: string; author: { name: string; imgUrl: string } };
 
 const TestimonialSection = () => {
+  useGSAP(() => {
+    const testimonialTl = gsap.timeline({
+      scrollTrigger: {
+        trigger: ".testimonial-section",
+        start: "top 80%",
+        end: "top 50%",
+        scrub: 1,
+      },
+    });
+
+    testimonialTl
+      .from(".stat-item", {
+        y: 50,
+        opacity: 0,
+        stagger: 0.1,
+        ease: "power2.out",
+      })
+      .from(
+        ".testimonial-heading",
+        {
+          y: 50,
+          opacity: 0,
+          ease: "power2.out",
+        },
+        "-=0.5"
+      );
+  });
+
   return (
-    <section className="relative w-screen h-dvh bg-black z-20">
+    <section className="relative w-screen h-dvh bg-black z-20 testimonial-section">
       <div className="flex flex-col items-center justify-between w-full h-full">
         <div className="grid grid-cols-2 md:grid-cols-7 mt-3 md:mt-8 gap-0 w-full text-white px-4 sm:px-6 md:px-8 lg:px-10">
-          <div className="flex flex-col items-center justify-center py-6 md:py-8">
+          <div className="flex flex-col items-center justify-center py-6 md:py-8 stat-item">
             <h1 className="font-chango text-2xl sm:text-3xl md:text-4xl lg:text-5xl">
               <CountUp start={100} end={1200} duration={2} suffix="+" />
             </h1>
@@ -26,7 +54,7 @@ const TestimonialSection = () => {
 
           <div className="hidden md:block w-px bg-gray-500 mx-auto h-full" />
 
-          <div className="flex flex-col items-center justify-center py-6 md:py-8">
+          <div className="flex flex-col items-center justify-center py-6 md:py-8 stat-item">
             <h1 className="font-chango text-2xl sm:text-3xl md:text-4xl lg:text-5xl">
               <CountUp start={10} end={500} duration={2} suffix="+" />
             </h1>
@@ -37,7 +65,7 @@ const TestimonialSection = () => {
 
           <div className="hidden md:block w-px bg-gray-500 mx-auto h-full" />
 
-          <div className="flex flex-col items-center justify-center py-6 md:py-8">
+          <div className="flex flex-col items-center justify-center py-6 md:py-8 stat-item">
             <h1 className="font-chango text-2xl sm:text-3xl md:text-4xl lg:text-5xl">
               <CountUp start={10} end={800} duration={2} suffix="+" />
             </h1>
@@ -48,7 +76,7 @@ const TestimonialSection = () => {
 
           <div className="hidden md:block w-px bg-gray-500 mx-auto h-full" />
 
-          <div className="flex flex-col items-center justify-center py-6 md:py-8">
+          <div className="flex flex-col items-center justify-center py-6 md:py-8 stat-item">
             <h1 className="font-chango text-2xl sm:text-3xl md:text-4xl lg:text-5xl">
               <CountUp start={0} end={10} duration={7} suffix="+" />
             </h1>
@@ -58,7 +86,7 @@ const TestimonialSection = () => {
           </div>
         </div>
 
-        <h1 className="font-chango text-xl md:text-3xl xl:text-5xl text-white mt-3 md:mt-6 text-center">
+        <h1 className="font-chango text-xl md:text-3xl xl:text-5xl text-white mt-3 md:mt-6 text-center testimonial-heading">
           What Our Customers Say
         </h1>
 

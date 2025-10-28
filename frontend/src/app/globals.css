@@ -370,6 +370,73 @@
   color: #ff0000;
 }
 
+/* New Amplify UI Overrides for a modern look */
+[data-amplify-authenticator] {
+  --amplify-colors-background-primary: var(--color-background);
+  --amplify-colors-background-secondary: var(--color-background);
+  --amplify-colors-font-primary: white;
+  --amplify-colors-font-secondary: white;
+  --amplify-colors-font-tertiary: white;
+  --amplify-colors-border-primary: oklch(var(--border));
+  --amplify-colors-border-secondary: oklch(var(--border));
+  --amplify-colors-border-tertiary: oklch(var(--border));
+  --amplify-colors-overlay-50: rgba(255, 255, 255, 0.5);
+}
+
+[data-amplify-authenticator][data-variation="default"] {
+  background-color: black;
+  color: white;
+  border-radius: var(--radius-lg);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease-in-out;
+}
+
+[data-amplify-authenticator] [data-amplify-router] {
+  background-color: black;
+  border-radius: var(--radius-lg);
+}
+
+[data-amplify-authenticator] [data-amplify-container] {
+  background-color: black;
+  color: white;
+}
+
+[data-amplify-authenticator] .amplify-input,
+[data-amplify-authenticator] .amplify-select {
+  background-color: black;
+  color: white;
+  border-color: oklch(var(--border));
+  transition: all 0.3s ease-in-out;
+}
+
+[data-amplify-authenticator] .amplify-input:focus,
+[data-amplify-authenticator] .amplify-select:focus {
+  background-color: #333;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px var(--color-primary);
+}
+
+[data-amplify-authenticator] .amplify-button--primary {
+  background-color: var(--color-primary);
+  color: white;
+  font-weight: 600;
+  transition: background-color 0.3s ease-in-out;
+}
+
+[data-amplify-authenticator] .amplify-button--primary:hover {
+  background-color: oklch(var(--primary) / 0.9);
+}
+
+[data-amplify-authenticator] .amplify-button--link {
+  color: var(--color-primary);
+  transition: color 0.3s ease-in-out;
+}
+
+[data-amplify-authenticator] .amplify-button--link:hover {
+  color: oklch(var(--primary) / 0.9);
+}
+
 /* Sonner Toast Styles */
 [data-close-button="true"] {
   background-color: oklch(var(--background));
