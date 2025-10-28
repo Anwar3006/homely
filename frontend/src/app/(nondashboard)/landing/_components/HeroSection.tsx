@@ -5,7 +5,7 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { SplitText } from "gsap/all";
 import { Input } from "@/components/ui/input";
-import { useMediaQuery } from "react-responsive";
+import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Search } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -104,15 +104,14 @@ const HeroSection = () => {
 
       <div className="hero-content flex flex-col">
         <div className="absolute top-[16.67%] left-4 md:left-24 max-w-5xl">
-          {isMobile ? (
-            <h1 className="text-5xl font-bold text-white font-chango opacity-100">
-              Homes that <br /> match your <br /> lifestyle.
-            </h1>
-          ) : (
-            <h1 className="text-4xl font-bold text-white md:text-7xl font-chango opacity-100">
-              Homes that <br /> match your lifestyle.
-            </h1>
-          )}
+          <h1
+            className={cn(
+              "font-bold text-white font-chango opacity-100",
+              isMobile ? "text-5xl" : "text-4xl md:text-7xl"
+            )}
+          >
+            Homes that <br /> match your lifestyle.
+          </h1>
         </div>
 
         <div className="hero-input absolute bottom-0 left-0.5 md:left-24 right-4 md:right-auto w-full md:max-w-3xl backdrop-blur-sm bg-black/40 pt-8 pb-[16.67vh] px-6 rounded-t-3xl">
