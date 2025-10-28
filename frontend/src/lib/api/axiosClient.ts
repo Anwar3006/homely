@@ -1,3 +1,4 @@
+import { fetchAuthSession } from "aws-amplify/auth";
 import axios from "axios";
 
 const API_VERSION = "v1";
@@ -11,5 +12,26 @@ const axiosClient = axios.create({
   },
   withCredentials: true,
 });
+
+// Request interceptor to add fresh token to every request
+axiosClient.interceptors.request.use(
+  async (config) => {
+    try {
+      const session = await fetchAuthSession();
+      const { idToken } = session.tokens ?? {};
+
+      if (idToken) {
+        config.headers.Authorization = `Bearer ${idToken}`;
+      }
+    } catch (error) {
+      console.error("Error fetching auth session:", error);
+    }
+
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
 
 export default axiosClient;

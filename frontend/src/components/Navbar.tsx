@@ -42,7 +42,7 @@ const Navbar = () => {
         </div>
 
         <div className="flex items-center justify-between gap-2 md:gap-5">
-          <Link href="/login">
+          <Link href="/signin">
             <Button
               variant="outline"
               className="bg-transparent font-gluten border-zinc-900 text-black hover:bg-white/30 rounded-full md:px-6 font-light cursor-pointer text-xs! md:text-base lg:text-lg"

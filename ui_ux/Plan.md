@@ -193,3 +193,26 @@ $ npm i drizzle-zod zod
     "db:generate": "npx drizzle-kit generate"
   },
 ```
+
+## Authentication Flow using Cognito in conjunction with our Database
+
+1. Assume the user has Signed up and is trying to Login, then the form will send the login details to Cognito, if the user has Created an Account(Signed Up) then Cognito will send JWT tokens along with some user details to the client's browser. The user can now use this JWT tokens to show they are Authenticated, for Authorization, we get the role from the User details sent by Cognito and cross-check our database to see if the user has the right role for the resource they want to access.
+2. If the user is Creating an Account, we capture th data and send it to Cognito, Cognito will send to the user (jwt, cognito id and user details like name, email). Then we also capture these details in our database so the user's details exists in 2 places, Cognito and our Database. Cognito serves as our main Authentication provider and we use our database for Authorization and also so we can have our users(managers, tenants) data so we can tie them to the our resources like Leases, Applications, Properties, etc. If the data is only captured in Cognito and not our Database, we would have to write a middleware function to be triggered each time a user makes any request to first see if the user is authenticated then grab the data from Cognito and check if they have the role needed, this can be a hassle on Cognito especially because there are rate-limits set in place by AWS.
+3. How do we Authorize users? We will set up an API Gateway to sit infront of our database so authorize users, it will need the details from Cognito
+
+### AWS Cognito UserPool
+
+- After creating our AWS Cognito UserPool, we need two values, UserPool ID and App Client ID, copy then and paste them in the .env file within the frontend folder
+
+### AWS Amplify UI SDK
+
+- Found [here](https://ui.docs.amplify.aws/), note that this is different from the Amplify Service which can be used to host web apps.
+- Why are we here? We will be using the Authenticator component, a pre-made component UI with inputs for username and password. Instead of rebuilding everything using Zod, @hookforms/react, etc. We use this, why? Because it is made with aws in mind, since we will be using Cognito for authentication, the library and sdk is already included.
+
+```bash
+$ npm install @aws-amplify/ui-react aws-amplify
+```
+
+- Then how we configure the Amplify and pass on the UserPool and Client ID we copied earlier: [here](https://docs.amplify.aws/gen1/javascript/tools/libraries/configure-categories/). The `userPoolClientId` and the `userPoolId` are all we need to configure, we can leave the rest out
+
+- To customize the form fields: go [here](https://ui.docs.amplify.aws/react/connected-components/authenticator/customization#form-field-customization)

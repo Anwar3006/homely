@@ -46,3 +46,4 @@ next-env.d.ts
 backend/.env.dev
 backend/dist/
 frontend/.next/
+frontend/.env.local

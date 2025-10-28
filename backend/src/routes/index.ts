@@ -1,6 +1,9 @@
 import type { Express, Request, Response } from "express";
 
 import { VERSION } from "../config/env.js";
+import { authMiddleware } from "../middleware/auth.middleware.ts";
+import tenantRouter from "./tenant.routes.ts";
+import managerRouter from "./manager.routes.ts";
 
 const routes = (app: Express) => {
   /* Home/Healthcheck Route */
@@ -13,7 +16,13 @@ const routes = (app: Express) => {
   });
 
   /* Other Routes */
-  //   app.use(`/api/${VERSION}`/users, userRouter);
+  // app.use(`/api/${VERSION}`/users, userRouter);
+  app.use(`/api/${VERSION}/tenants`, authMiddleware(["tenant"]), tenantRouter);
+  app.use(
+    `/api/${VERSION}/managers`,
+    authMiddleware(["manager"]),
+    managerRouter
+  );
 };
 
 export default routes;
