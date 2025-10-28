@@ -25,16 +25,16 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
   });
   return (
     <QueryClientProvider client={queryClient}>
-      <Authenticator.Provider>
-        <Auth>
-          <div id="smooth-wrapper">
-            <div id="smooth-content">
+      <div id="smooth-wrapper">
+        <div id="smooth-content">
+          <Authenticator.Provider>
+            <Auth>
               {children}
               <Toaster position="bottom-right" />
-            </div>
-          </div>
-        </Auth>
-      </Authenticator.Provider>
+            </Auth>
+          </Authenticator.Provider>
+        </div>
+      </div>
     </QueryClientProvider>
   );
 };

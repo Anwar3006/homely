@@ -85,6 +85,7 @@ const components = {
           <p className="text-muted-foreground">
             Don&apos;t have an account?{" "}
             <button
+              type="button"
               onClick={toSignUp}
               className="text-primary hover:underline bg-transparent border-none cursor-pointer"
             >
@@ -135,10 +136,10 @@ const components = {
 };
 
 const Auth = ({ children }: { children: React.ReactNode }) => {
-  const { user } = useAuthenticator();
+  const { user } = useAuthenticator((context) => [context.user]);
 
   return (
-    <div className="h-full">
+    <div className="h-screen w-screen">
       <Authenticator formFields={formFields} components={components}>
         {() => <>{children}</>}
       </Authenticator>
