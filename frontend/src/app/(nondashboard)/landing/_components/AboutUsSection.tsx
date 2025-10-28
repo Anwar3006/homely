@@ -59,11 +59,12 @@ const AboutUsSection = () => {
       .fromTo(
         ".about-image",
         {
-          scale: 1.2,
+          scale: 0.3,
         },
         {
           scale: 1,
-          ease: "power2.inOut",
+          ease: "circ.out",
+          duration: 2,
         },
         "<"
       );
