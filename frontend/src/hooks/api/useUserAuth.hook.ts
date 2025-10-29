@@ -2,7 +2,7 @@ import UserAuth from "@/lib/services/userAuth.service";
 import { Manager, Tenant } from "@/types/dbTypes";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { AuthUser, fetchAuthSession, getCurrentUser } from "aws-amplify/auth";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 
 /**
  * Get the user's session and user data from Amplify, we will need the idToken to check their role and the user data for the cognito id
@@ -88,4 +88,42 @@ const useUserAuth = () => {
   });
 };
 
-export default useUserAuth;
+const useUserAuthMutation = () => {
+  const queryClient = useQueryClient();
+  const [user, setUser] = useState<any>(null);
+
+  //Fetch user data
+  useEffect(() => {
+    const fetchAuth = async () => {
+      const session = await fetchAuthSession();
+      const { idToken } = session.tokens ?? {};
+
+      const userData = await getCurrentUser();
+      const role = idToken?.payload["custom:role"] as string;
+
+      const userInfo = {
+        ...userData,
+        role,
+        email: idToken?.payload["email"],
+      };
+      setUser(userInfo);
+    };
+
+    fetchAuth();
+  }, []);
+
+  console.log("User :", user);
+  const endpoint = user?.role === "manager" ? `/managers` : `/tenants`;
+
+  return useMutation({
+    mutationFn: (data: Partial<Tenant | Manager>) => {
+      const url = `${endpoint}/${user.userId}`;
+      return UserAuth.updateAuthUser(url, data);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["userAuth", user.userId] });
+    },
+  });
+};
+
+export { useUserAuth, useUserAuthMutation };

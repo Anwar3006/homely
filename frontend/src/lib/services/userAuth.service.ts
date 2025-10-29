@@ -20,6 +20,16 @@ const UserAuth = {
       throw error;
     }
   },
+
+  updateAuthUser: async (endpoint: string, data: any): Promise<any> => {
+    try {
+      const response = await axiosClient.put(endpoint, data);
+      return response.data;
+    } catch (error) {
+      console.error("Error updating user: ", error);
+      throw error;
+    }
+  },
 };
 
 export default UserAuth;

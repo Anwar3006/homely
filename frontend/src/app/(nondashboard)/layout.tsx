@@ -2,8 +2,8 @@
 import GsapScrollProvider from "@/components/GsapScrollProvider";
 import { PageLoader } from "@/components/Loader";
 import Navbar from "@/components/Navbar";
-import useUserAuth from "@/hooks/api/useUserAuth.hook";
-import { NAVBAR_HEIGHT } from "@/lib/constants";
+import { useUserAuth } from "@/hooks/api/useUserAuth.hook";
+
 import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 

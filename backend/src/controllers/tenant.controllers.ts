@@ -25,3 +25,23 @@ export const createTenant = catchAsync(
     res.status(201).json(tenant);
   }
 );
+
+export const updateTenant = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { cognitoId } = req.params;
+    const data = req.body;
+
+    if (!cognitoId) {
+      next(new AppError("Please provide a cognitoId", 400));
+    }
+    if (!data.name && !data.email && !data.phoneNumber) {
+      next(new AppError("No fields to update", 400));
+    }
+
+    const tenant = await TenantService.update(cognitoId as string, data);
+    if (!tenant) {
+      next(new AppError("Tenant update failed", 500));
+    }
+    res.status(200).json(tenant);
+  }
+);

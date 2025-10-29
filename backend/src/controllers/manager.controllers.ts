@@ -25,3 +25,23 @@ export const createManager = catchAsync(
     res.status(201).json(manager);
   }
 );
+
+export const updateManager = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { cognitoId } = req.params;
+    const data = req.body;
+
+    if (!cognitoId) {
+      next(new AppError("Please provide a cognitoId", 400));
+    }
+    if (!data.name && !data.email && !data.phoneNumber) {
+      next(new AppError("No fields to update", 400));
+    }
+
+    const manager = await ManagerService.update(cognitoId as string, data);
+    if (!manager) {
+      next(new AppError("Manager update failed", 500));
+    }
+    res.status(200).json(manager);
+  }
+);

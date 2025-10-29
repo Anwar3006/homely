@@ -1,6 +1,7 @@
 import db from "../db/connect.ts";
 import { tenant } from "../db/users.schema.ts";
 import { insertTenantSchema } from "../db/types.ts";
+import { eq } from "drizzle-orm";
 
 const TenantService = {
   get: async (cognitoId: string) => {
@@ -39,6 +40,31 @@ const TenantService = {
       return newTenant;
     } catch (error) {
       console.error("Error creating tenant: ", error as Error);
+      return null;
+    }
+  },
+
+  update: async (cognitoId: string, data: any) => {
+    try {
+      const insertData = insertTenantSchema
+        .omit({ id: true })
+        .optional()
+        .parse(data);
+      const tenantUpdateFields = {
+        name: insertData?.name,
+        email: insertData?.email,
+        phoneNumber: insertData?.phoneNumber,
+      };
+
+      const [updatedTenant] = await db
+        .update(tenant)
+        .set(tenantUpdateFields)
+        .where(eq(tenant.cognitoId, cognitoId))
+        .returning();
+
+      return updatedTenant;
+    } catch (error) {
+      console.error("Error updating tenant: ", error as Error);
       return null;
     }
   },

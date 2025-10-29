@@ -3,7 +3,7 @@ import CustomSidebar from "@/components/CustomSidebar";
 import { PageLoader } from "@/components/Loader";
 import Navbar from "@/components/Navbar";
 import { SidebarProvider } from "@/components/ui/sidebar";
-import useUserAuth from "@/hooks/api/useUserAuth.hook";
+import { useUserAuth } from "@/hooks/api/useUserAuth.hook";
 import { NAVBAR_HEIGHT } from "@/lib/constants";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";

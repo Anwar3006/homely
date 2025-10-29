@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { Button } from "./ui/button";
-import useUserAuth from "@/hooks/api/useUserAuth.hook";
+import { useUserAuth } from "@/hooks/api/useUserAuth.hook";
 import { usePathname, useRouter } from "next/navigation";
 import { signOut } from "aws-amplify/auth";
 import { Bell, MessageCircle, Plus, Search } from "lucide-react";
