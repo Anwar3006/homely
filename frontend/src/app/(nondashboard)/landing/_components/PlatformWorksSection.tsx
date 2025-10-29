@@ -16,7 +16,6 @@ const PlatformWorksSection = () => {
       scrollTrigger: {
         trigger: ".platform-works",
         start: "top 70%",
-        markers: true,
       },
     });
 

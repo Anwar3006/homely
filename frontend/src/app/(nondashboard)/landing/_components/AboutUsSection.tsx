@@ -25,6 +25,12 @@ const AboutUsSection = () => {
       },
     });
 
+    // Set initial state
+    gsap.set(".about-image", {
+      scale: 0.3,
+      maxWidth: "30%",
+    });
+
     aboutSectionTl
       .from(".about-heading", {
         x: -100,
@@ -56,15 +62,14 @@ const AboutUsSection = () => {
         },
         "-=0.5"
       )
-      .fromTo(
+      .to(
         ".about-image",
         {
-          scale: 0.3,
-        },
-        {
           scale: 1,
+          maxWidth: "100%", // or "672px" for max-w-2xl
           ease: "circ.out",
-          duration: 2,
+          duration: 6,
+          delay: 0.2,
         },
         "<"
       );

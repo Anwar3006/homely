@@ -183,6 +183,16 @@
     @apply font-gluten;
   }
 
+  /* Add these styles to hide scrollbar */
+  html {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+  }
+
+  html::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+  }
+
   p {
     @apply font-gluten;
   }

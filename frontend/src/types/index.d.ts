@@ -1,13 +1,13 @@
 import { LucideIcon } from "lucide-react";
 import { AuthUser } from "aws-amplify/auth";
-import { Manager, Tenant, Property, Application } from "./prismaTypes";
-import { MotionProps as OriginalMotionProps } from "framer-motion";
-
-declare module "framer-motion" {
-  interface MotionProps extends OriginalMotionProps {
-    className?: string;
-  }
-}
+import { Manager, Tenant, Property, Application } from "./dbTypes";
+// import { MotionProps as OriginalMotionProps } from "framer-motion";
+// We used GSAP not Framer-Motion for animation
+// declare module "framer-motion" {
+//   interface MotionProps extends OriginalMotionProps {
+//     className?: string;
+//   }
+// }
 
 declare global {
   enum AmenityEnum {
